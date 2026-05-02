@@ -10,7 +10,7 @@ class MatchRecordsSerializer(serializers.ModelSerializer):
     created_by_id = serializers.IntegerField(read_only=True)
     class Meta:
         model=MatchRecords
-        fields = ['title', 'record','home_team_id','home_score','away_team_id','away_score','round','match_day','created_by_id']
+        fields = ['id','title', 'record','home_team_id','home_score','away_team_id','away_score','round','match_day','created_by_id']
     def validate(self, data):
             """
             Check home_team and away_team.

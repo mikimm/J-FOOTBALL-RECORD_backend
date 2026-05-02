@@ -2,6 +2,7 @@ from rest_framework import filters, viewsets,status
 from rest_framework.response import Response
 from jfootball_record.exception.exception_handler import hundle_exception
 from jfootball_record.model_definition.match_records_models import MatchRecords
+from jfootball_record.model_definition.nice_models import Nice
 from jfootball_record.model_definition.teams_models import Teams
 from jfootball_record.serializer.match_records_serializer import MatchRecordsSerializer
 from rest_framework.pagination import PageNumberPagination
@@ -42,7 +43,7 @@ class MatchRecordsViewSet(viewsets.ModelViewSet):
     #filtering設定
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
     filterset_class = MatchRecordsFilter
-    ordering_fields = ['round']
+    ordering_fields = ['id']
     #辞書更新プライベートメソッド
     def _update_dict(self,target:dict,add_data:dict):
         if not(type(target) is  dict and type(add_data) is dict):
@@ -94,11 +95,13 @@ class MatchRecordsViewSet(viewsets.ModelViewSet):
             return response
         all_teams_list=Teams.objects.all()
         for result in results:
+            count=Nice.objects.filter(record_id=result["id"]).count()
             for team in all_teams_list:
                 if not ("home_team_name" in result
                         and "away_team_name" in result
                         and "home_team_logo" in result
                         and "away_team_logo" in result):
+                    result["nice_count"]=count
                     if result["home_team_id"] == team.id:
                         self._update_dict(result,{"home_team_name":team.team_name,"home_team_logo":team.team_logo})
                     elif result["away_team_id"] == team.id:
