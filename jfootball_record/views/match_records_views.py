@@ -1,10 +1,10 @@
-from rest_framework import filters, viewsets,status
+from rest_framework import filters, generics, viewsets,status
 from rest_framework.response import Response
 from jfootball_record.exception.exception_handler import hundle_exception
 from jfootball_record.model_definition.match_records_models import MatchRecords
 from jfootball_record.model_definition.nice_models import Nice
 from jfootball_record.model_definition.teams_models import Teams
-from jfootball_record.serializer.match_records_serializer import MatchRecordsSerializer
+from jfootball_record.serializer.match_records_serializer import MatchRecordListSerializer, MatchRecordsSerializer
 from rest_framework.pagination import PageNumberPagination
 from django_filters import FilterSet,CharFilter
 from django_filters.rest_framework import DjangoFilterBackend 
@@ -38,12 +38,7 @@ class MatchRecordsViewSet(viewsets.ModelViewSet):
     queryset = MatchRecords.objects.all()
     #TODO:user_idの取得方法
     user_id=2
-    #pagenation設定
-    pagination_class = MyPagination
-    #filtering設定
-    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
-    filterset_class = MatchRecordsFilter
-    ordering_fields = ['id']
+    http_method_names = ['get', 'post']
     #辞書更新プライベートメソッド
     def _update_dict(self,target:dict,add_data:dict):
         if not(type(target) is  dict and type(add_data) is dict):
@@ -88,24 +83,17 @@ class MatchRecordsViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    def list(self, request, *args, **kwargs):
-        response=super().list(self,request, *args, **kwargs)
-        results=response.data["results"]
-        if len(results) == 0:
-            return response
-        all_teams_list=Teams.objects.all()
-        for result in results:
-            count=Nice.objects.filter(record_id=result["id"]).count()
-            for team in all_teams_list:
-                if not ("home_team_name" in result
-                        and "away_team_name" in result
-                        and "home_team_logo" in result
-                        and "away_team_logo" in result):
-                    result["nice_count"]=count
-                    if result["home_team_id"] == team.id:
-                        self._update_dict(result,{"home_team_name":team.team_name,"home_team_logo":team.team_logo})
-                    elif result["away_team_id"] == team.id:
-                        self._update_dict(result,{"away_team_name":team.team_name,"away_team_logo":team.team_logo})
-                else:
-                    break
-        return response
+    
+    def list (self, request, *args, **kwargs):
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+class MatchRecordListView(generics.ListAPIView):
+    #pagenation設定
+    pagination_class = MyPagination
+    #filtering設定
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_class = MatchRecordsFilter
+    ordering_fields = ['id']
+    serializer_class = MatchRecordListSerializer
+    queryset = MatchRecords.objects.all().prefetch_related('home_team','away_team') 	
+ 
