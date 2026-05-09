@@ -2,8 +2,9 @@ from rest_framework import serializers
 
 from django.db import models
 from jfootball_record.model_definition.match_records_models import MatchRecords
+from jfootball_record.model_definition.users_models import Users
 from jfootball_record.serializer.teams_serializer import TeamsSerializer
-
+from django.contrib.auth import get_user_model
 # MatchRecords用シリアライザー
 class MatchRecordsSerializer(serializers.ModelSerializer):
     home_team_id =serializers.IntegerField(min_value=1, max_value=60)
@@ -23,6 +24,12 @@ class MatchRecordsSerializer(serializers.ModelSerializer):
 class MatchRecordListSerializer(serializers.ModelSerializer):
     home_team = TeamsSerializer(read_only=True)
     away_team = TeamsSerializer(read_only=True)
+    user_name = serializers.SerializerMethodField()
     class Meta:
         model = MatchRecords
-        fields = ['id', 'title', 'record', 'home_team', 'home_score', 'away_team', 'away_score', 'round', 'match_day', 'created_by_id']
+        fields = ['id', 'title', 'record', 'home_team', 'home_score', 'away_team', 'away_score', 'round', 'match_day', 'created_by_id','user_name']
+        
+
+    def get_user_name(self, obj):
+        user = Users.objects.get(id=obj.created_by_id)
+        return user.username
