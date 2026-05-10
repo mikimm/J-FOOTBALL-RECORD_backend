@@ -38,7 +38,6 @@ class MatchRecordsViewSet(viewsets.ModelViewSet):
     queryset = MatchRecords.objects.all()
     #TODO:user_idの取得方法
     user_id=2
-    http_method_names = ['get', 'post']
     #辞書更新プライベートメソッド
     def _update_dict(self,target:dict,add_data:dict):
         if not(type(target) is  dict and type(add_data) is dict):
@@ -84,8 +83,6 @@ class MatchRecordsViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     
-    def list (self, request, *args, **kwargs):
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 class MatchRecordListView(generics.ListAPIView):
     #pagenation設定
