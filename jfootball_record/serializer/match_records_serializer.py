@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from django.db import models
 from jfootball_record.model_definition.match_records_models import MatchRecords
+from jfootball_record.model_definition.nice_models import Nice
 from jfootball_record.model_definition.users_models import Users
 from jfootball_record.serializer.teams_serializer import TeamsSerializer
 from django.contrib.auth import get_user_model
@@ -25,11 +26,16 @@ class MatchRecordListSerializer(serializers.ModelSerializer):
     home_team = TeamsSerializer(read_only=True)
     away_team = TeamsSerializer(read_only=True)
     user_name = serializers.SerializerMethodField()
+    nice_count = serializers.SerializerMethodField()
     class Meta:
         model = MatchRecords
-        fields = ['id', 'title', 'record', 'home_team', 'home_score', 'away_team', 'away_score', 'round', 'match_day', 'created_by_id','user_name']
+        fields = ['id', 'title', 'record', 'home_team', 'home_score', 'away_team', 'away_score', 'round', 'match_day', 'created_by_id','user_name','nice_count']
         
 
     def get_user_name(self, obj):
         user = Users.objects.get(id=obj.created_by_id)
         return user.username
+
+    def get_nice_count(self, obj):
+        nice_count = Nice.objects.filter(record_id=obj.id).count()
+        return nice_count
