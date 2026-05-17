@@ -38,11 +38,6 @@ class MatchRecordsViewSet(viewsets.ModelViewSet):
     queryset = MatchRecords.objects.all()
     #TODO:user_idの取得方法
     user_id=2
-    #辞書更新プライベートメソッド
-    def _update_dict(self,target:dict,add_data:dict):
-        if not(type(target) is  dict and type(add_data) is dict):
-            TypeError("target and add_data must be dict")
-        target.update(add_data)
         
         
     def perform_create(self, serializer):
