@@ -18,8 +18,11 @@ class Goals:
 @dataclass
 class Team:
     name: str = ""
-    founded: int = 0
+    founded: int | None | str = None
     logo: str = ""
+    def post_init(self):
+        if self.founded is None:
+            self.founded = "---"
     
 @dataclass
 # --- team ---
