@@ -20,7 +20,7 @@ class Team:
     name: str = ""
     founded: int | None | str = None
     logo: str = ""
-    def post_init(self):
+    def __post_init__(self):
         if self.founded is None:
             self.founded = "---"
     
