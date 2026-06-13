@@ -14,8 +14,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import include, path
+from django.urls import include, path,re_path
+from django.shortcuts import render
+from django.contrib.staticfiles.views import serve
+def index_view(request,*args, **kwargs):
+    return render(request, 'index.html')
 
 urlpatterns = [
     path('api/v1/', include('jfootball_record.urls')),
+    re_path(r'^my-app/(?!.*images/).*$', index_view, name='index'), 
+    re_path(r'^my-app/(?P<path>.*?\.[^/]+)$',serve),
 ]
