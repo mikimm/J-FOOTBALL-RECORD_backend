@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ja">
+<header> <title>Test 登録 page</title></header>
+<body>
+<div>Test 登録</div>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">登録</button>
+</form>
+</body>
+</html>

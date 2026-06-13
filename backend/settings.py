@@ -53,11 +53,15 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'backend.urls'
-
+AUTH_USER_MODEL = 'jfootball_record.Users'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'frontend'],  
+        'DIRS': 
+        [
+            'templates',
+            BASE_DIR / 'frontend',  
+        ],  
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,3 +132,15 @@ STATICFILES_DIRS = (
 load_dotenv('.env')
 X_API_SPORTS_KEY=os.environ.get('x-apisports-key')
 SEASON=int(os.environ.get('season'))
+
+# ロケールを日本語に設定
+LANGUAGE_CODE = 'ja'
+TIME_ZONE = 'Asia/Tokyo'
+
+#認証に使うユーザーモデルを定義
+AUTH_USER_MODEL = "jfootball_record.Users"
+
+#ログイン後に遷移するURL
+LOGIN_REDIRECT_URL = '/my_app/' 
+#ログアウト後に遷移するURL
+LOGOUT_REDIRECT_URL ='/login/'
