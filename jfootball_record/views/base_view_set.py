@@ -4,8 +4,14 @@ from rest_framework.response import Response
 from jfootball_record.exception.exception_handler import hundle_exception
 
 class BaseViewSet(viewsets.ModelViewSet):
-    def perform_create(self, serializer):
-        serializer.save(created_by_id=self.user_id)
+    def create(self,request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer,request.user.id)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    def perform_create(self,serializer,user_id):
+        serializer.save(created_by_id=user_id)
 
     def destroy(self, request, *args, **kwargs):
         try:
@@ -13,7 +19,7 @@ class BaseViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return hundle_exception(e)
         created_by_id=instance.__getattribute__("created_by_id")
-        if created_by_id==self.user_id:
+        if created_by_id==request.user.id:
             self.perform_destroy(instance)
         else:
             return Response("権限がありません",status=status.HTTP_403_FORBIDDEN)
@@ -29,7 +35,7 @@ class BaseViewSet(viewsets.ModelViewSet):
             return hundle_exception(e)
         created_by_id=instance.__getattribute__("created_by_id")
         
-        if created_by_id==self.user_id:
+        if created_by_id==request.user.id:
             serializer = self.get_serializer(instance, data=request.data, partial=partial)
             serializer.is_valid(raise_exception=True)
             self.perform_update(serializer)

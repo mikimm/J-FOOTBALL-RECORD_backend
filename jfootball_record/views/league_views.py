@@ -4,6 +4,8 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from jfootball_record.usecase.league_usecase import league_usecase_handle
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 allow_pattern=[
@@ -27,7 +29,8 @@ allow_pattern=[
 
 allow_division=[98,99,100]
 class LeagueRankingView(APIView):
-        
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated, )
     def get(self, request, *args, **kwargs):
         division_id=kwargs["division_id"]
         if not division_id in allow_division:

@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media') 
  
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
