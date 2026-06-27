@@ -13,7 +13,6 @@ class SignupView(View):
         return render(request, 'signup.html', context)
 
     def post(self, request, *args, **kwargs):
-        print(request)
         form = SignUpForm(request.POST)
         if not form.is_valid():
             return render(request, 'signup.html', {'form': form})
@@ -26,5 +25,4 @@ class SignupView(View):
         user = form.save(commit=False)
         user.set_password(form.cleaned_data['password1'])
         user.save()
-        print(user)
         return user
