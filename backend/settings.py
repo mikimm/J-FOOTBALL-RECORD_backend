@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'backend.middleware.session_middleware.SessionMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -142,5 +143,4 @@ AUTH_USER_MODEL = "jfootball_record.Users"
 
 #ログイン後に遷移するURL
 LOGIN_REDIRECT_URL = '/my_app/' 
-#ログアウト後に遷移するURL
-LOGOUT_REDIRECT_URL ='/login/'
+LOGIN_URL = "/login/"

@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf.urls.static import static
 from django.urls import include, path,re_path
 from django.shortcuts import render
@@ -21,16 +22,23 @@ from django.contrib.staticfiles.views import serve
 from django.conf import settings
 from backend.settings import MEDIA_ROOT, MEDIA_URL
 from jfootball_record.views.sign_up_view import SignupView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from rest_framework import status
 @login_required
 def index_view(request,*args, **kwargs):
     return render(request, 'index.html')
 
+def auth_check(request,*args, **kwargs):
+    if request.user.is_authenticated:
+        return JsonResponse({"code":"auth_check_success"},status=status.HTTP_204_NO_CONTENT)
+    else:
+         return JsonResponse({"code":"auth_check_failed"},status=status.HTTP_403_FORBIDDEN)
 urlpatterns = [
     path('sign_up/', SignupView.as_view()),
+    path('auth/check/',auth_check),
     path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
     path('api/v1/', include('jfootball_record.urls')),
     re_path(r'^my_app/(?!.*(images/|static/)).*$', index_view, name='index'), 
     re_path(r'^my_app/(?P<path>.*?\.[^/]+)$',serve),
