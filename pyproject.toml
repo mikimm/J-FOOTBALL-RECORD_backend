@@ -15,7 +15,8 @@ dependencies = [
     "python-dotenv (>=1.2.2,<2.0.0)",
     "load-dotenv (>=0.1.0,<0.2.0)",
     "dotenv (>=0.9.9,<0.10.0)",
-    "django-filter (>=25.2,<26.0)"
+    "django-filter (>=25.2,<26.0)",
+    "django-bootstrap5 (>=26.2,<27.0)"
 ]
 
 

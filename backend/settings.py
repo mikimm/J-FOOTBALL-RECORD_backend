@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'jfootball_record',
     'rest_framework',
     'django_filters',
+    'django_bootstrap5'
 ]
 
 MIDDLEWARE = [
