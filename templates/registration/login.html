@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 
 {% load django_bootstrap5 %}
@@ -7,10 +8,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>J-FOOTBALL-RECORD</title>
-
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
     {% bootstrap_css %} {% bootstrap_javascript %}
   </head>
-
   <body style="background-color: black">
     <div
       class="container vh-100 d-flex justify-content-center align-items-center"
@@ -20,18 +20,13 @@
         style="width: 400px; background-color: #e9ecef"
       >
         <h2 class="text-center mb-4">J-FOOTBALL-RECORD</h2>
-
-        <form method="post">
+        {% include "../auth_nav.html" %}
+        <form method="post" style="text-align: center; margin-top: 10%">
           {% csrf_token %} {{ form }}
-
           <button type="submit" class="btn btn-outline-dark w-100 mt-3">
-            ログイン
+            サインイン
           </button>
         </form>
-
-        <button id="register" class="btn btn-outline-dark w-100 mt-3">
-          ユーザー登録
-        </button>
       </div>
     </div>
 

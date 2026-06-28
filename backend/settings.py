@@ -130,6 +130,7 @@ STATIC_URL = 'statics/'
 
 STATICFILES_DIRS = (
     BASE_DIR.joinpath('frontend'),
+    os.path.join(BASE_DIR, "statics"), 
 )
 load_dotenv('.env')
 X_API_SPORTS_KEY=os.environ.get('x-apisports-key')
