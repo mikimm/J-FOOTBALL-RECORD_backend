@@ -32,7 +32,7 @@ def index_view(request,*args, **kwargs):
 
 def auth_check(request,*args, **kwargs):
     if request.user.is_authenticated:
-        return JsonResponse({"code":"auth_check_success"},status=status.HTTP_204_NO_CONTENT)
+        return JsonResponse({"code":"auth_check_success"},status=status.HTTP_200_OK)
     else:
          return JsonResponse({"code":"auth_check_failed"},status=status.HTTP_403_FORBIDDEN)
 urlpatterns = [

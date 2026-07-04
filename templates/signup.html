@@ -18,7 +18,7 @@
         style="width: 400px; background-color: #e9ecef"
       >
         <h2 class="text-center mb-4">J-FOOTBALL-RECORD</h2>
-        {% include " auth_nav.html" %}
+        {% include "auth_nav.html" %}
         <form method="post" style="text-align: center">
           {% csrf_token %} {{ form }}
           <button type="submit" class="btn btn-outline-dark w-100 mt-3">
