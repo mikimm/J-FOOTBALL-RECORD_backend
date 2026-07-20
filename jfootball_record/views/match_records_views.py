@@ -11,6 +11,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from jfootball_record.views.base_view_set import BaseViewSet 
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from distutils.util import strtobool
 class MyPagination(PageNumberPagination):
     REST_FRAMEWORK = {
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -36,8 +37,8 @@ class MatchRecordsFilter(FilterSet):
     
 # Create your views here.
 class MatchRecordsViewSet(BaseViewSet):
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated, )
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated, )
     serializer_class = MatchRecordsSerializer
     queryset = MatchRecords.objects.all()
     
@@ -47,9 +48,14 @@ class MatchRecordListView(generics.ListAPIView):
     #filtering設定
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
     filterset_class = MatchRecordsFilter
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated, )
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated, )
     ordering_fields = ['id']
     serializer_class = MatchRecordListSerializer
-    queryset = MatchRecords.objects.all().prefetch_related('home_team','away_team') 	
+    queryset = MatchRecords.objects.all().prefetch_related('home_team','away_team') 
+    
+    def get_queryset(self):
+        if bool(strtobool(self.request.GET.get('mine'))):
+            return MatchRecords.objects.filter(created_by=self.request.user.id).prefetch_related('home_team','away_team') 
+        
  
