@@ -29,8 +29,8 @@ allow_pattern=[
 
 allow_division=[98,99,100]
 class LeagueRankingView(APIView):
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated, )
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated, )
     def get(self, request, *args, **kwargs):
         division_id=kwargs["division_id"]
         if not division_id in allow_division:
