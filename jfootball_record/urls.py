@@ -1,5 +1,6 @@
 
 from django.urls import path
+from jfootball_record.views.completed_records_views import CompletedRecordsView
 from jfootball_record.views.picture_views import PictureView
 from jfootball_record.views.players_view import TeamPlayersView
 from jfootball_record.views.league_views import LeagueRankingView
@@ -13,6 +14,7 @@ router = DefaultRouter()
 record_view_register =MatchRecordsViewSet.as_view({'post': 'create'})
 record_view_operator =MatchRecordsViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
 urlpatterns = [
+    path('completed_records/', CompletedRecordsView.as_view()),
     path('records/', record_view_register),
     path('records/<int:pk>/', record_view_operator),
     path('comments/<int:record_id>', CommentsView.as_view()),

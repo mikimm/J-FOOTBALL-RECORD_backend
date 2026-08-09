@@ -8,6 +8,7 @@ from rest_framework import viewsets,mixins
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.http import JsonResponse
 # Create your views here.
 class NiceView(
     mixins.CreateModelMixin,

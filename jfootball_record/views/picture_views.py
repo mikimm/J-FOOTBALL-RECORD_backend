@@ -1,14 +1,12 @@
 from rest_framework import generics
-from jfootball_record.model_definition.picture_models import Picture
 from jfootball_record.serializer.picture_serializer import UploadedPictureSerializer
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 # Create your views here.
-class PictureView(generics.CreateAPIView,generics.RetrieveAPIView):
+class PictureView(generics.CreateAPIView):
     serializer_class = UploadedPictureSerializer
-    queryset = Picture.objects.all()
     lookup_field = 'record_id'
     authentication_classes = (SessionAuthentication,)
     permission_classes = (IsAuthenticated, )
