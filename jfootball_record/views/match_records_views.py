@@ -48,8 +48,8 @@ class MatchRecordListView(generics.ListAPIView):
     #filtering設定
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
     filterset_class = MatchRecordsFilter
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated, )
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated, )
     ordering_fields = ['id']
     serializer_class = MatchRecordListSerializer
     queryset = MatchRecords.objects.all().prefetch_related('home_team','away_team') 

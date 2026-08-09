@@ -8,16 +8,17 @@ from rest_framework import status
 # Create your views here.
 class PictureView(generics.CreateAPIView,generics.RetrieveAPIView):
     serializer_class = UploadedPictureSerializer
-    queryset = Picture.objects.all().prefetch_related('record')
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated, )
+    queryset = Picture.objects.all()
+    lookup_field = 'record_id'
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated, )
     def create(self,request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer,request.user.id)
         headers = self.get_success_headers(serializer.data)
-        return Response({"record": serializer.get_record(serializer.instance, image=serializer.data) }, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     def perform_create(self,serializer,user_id):
-        record=serializer.create_record(user_id)
-        serializer.save(record_id=record.id)
-
+        record_id = self.kwargs['record_id']
+        serializer.check_create(data={"record_id":record_id,"user_id":user_id})
+        serializer.save(record_id=record_id)

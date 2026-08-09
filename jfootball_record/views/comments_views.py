@@ -7,8 +7,8 @@ from rest_framework import status
 # Create your views here.
 class CommentsView(generics.CreateAPIView):
     serializer_class = CommentsSerializer
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated, )
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated, )
     def create(self,request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
