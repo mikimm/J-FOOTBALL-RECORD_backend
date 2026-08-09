@@ -55,7 +55,9 @@ class MatchRecordListView(generics.ListAPIView):
     queryset = MatchRecords.objects.all().prefetch_related('home_team','away_team') 
     
     def get_queryset(self):
-        if bool(strtobool(self.request.GET.get('mine'))):
+        if self.request.GET.get('mine') and bool(strtobool(self.request.GET.get('mine'))):
             return MatchRecords.objects.filter(created_by=self.request.user.id).prefetch_related('home_team','away_team') 
+        else:
+            return MatchRecords.objects.all().prefetch_related('home_team','away_team')
         
  
