@@ -1,3 +1,5 @@
+import os
+
 from jfootball_record.serializer.match_records_serializer import MatchRecordsSerializer
 from jfootball_record.serializer.picture_serializer import UploadedPictureSerializer
 from rest_framework import generics
@@ -15,6 +17,7 @@ class CompletedRecordsView(generics.CreateAPIView):
         picture_serializer = UploadedPictureSerializer(data=request.data)
         record_serializer.is_valid(raise_exception=True)
         picture_serializer.is_valid(raise_exception=True)
+        picture_serializer.check_file(request.FILES)
         user_id = self.request.user.id
         self.perform_create(record_serializer, picture_serializer, user_id=user_id)
         headers = self.get_success_headers(record_serializer.data)

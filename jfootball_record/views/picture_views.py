@@ -13,6 +13,7 @@ class PictureView(generics.CreateAPIView):
     def create(self,request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.check_file(request.FILES)
         self.perform_create(serializer,request.user.id)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
