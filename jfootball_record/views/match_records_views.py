@@ -37,8 +37,8 @@ class MatchRecordsFilter(FilterSet):
     
 # Create your views here.
 class MatchRecordsViewSet(BaseViewSet):
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated, )
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated, )
     serializer_class = MatchRecordsSerializer
     queryset = MatchRecords.objects.all()
     

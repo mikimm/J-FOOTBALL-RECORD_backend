@@ -7,8 +7,8 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 class TeamPlayersView(APIView):
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated,)
     def get(self, request, *args, **kwargs):
         try:
             output=players_usecase_handle(team_id=self.kwargs['team_id'],player_id=self.kwargs['player_id'])
