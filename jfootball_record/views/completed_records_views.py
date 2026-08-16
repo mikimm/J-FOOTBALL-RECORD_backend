@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from django.db import transaction
+
 # Create your views here.
 class CompletedRecordsView(generics.CreateAPIView):
     authentication_classes = (SessionAuthentication,)
@@ -16,21 +17,31 @@ class CompletedRecordsView(generics.CreateAPIView):
         record_serializer = MatchRecordsSerializer(data=request.data)
         picture_serializer = UploadedPictureSerializer(data=request.data)
         record_serializer.is_valid(raise_exception=True)
-        picture_serializer.is_valid(raise_exception=True)
-        picture_serializer.check_file(request.FILES)
         user_id = self.request.user.id
-        self.perform_create(record_serializer, picture_serializer, user_id=user_id)
+        if not "picture" in request.data.keys() or not "caption" in request.data.keys():
+            self.perform_create(record_serializer, picture_serializer, user_id,False)
+        else:
+            picture_serializer.is_valid(raise_exception=True)
+            picture_serializer.check_file(request.FILES)
+            self.perform_create(record_serializer, picture_serializer, user_id,True)
         headers = self.get_success_headers(record_serializer.data)
         return Response(record_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-    def perform_create(self, record_serializer, picture_serializer, user_id):
-        with transaction.atomic():
-            record = record_serializer.save(
-                created_by_id=user_id
-            )
-            picture_serializer.check_create(
-                data={"record_id":record.id,"user_id":user_id}
-            )
-            picture_serializer.save(
-                record=record
-            )
+    def perform_create(self, record_serializer, picture_serializer, user_id,picture_flag:bool):
+        """対戦記録登録のみ"""
+        if not picture_flag:
+                record = record_serializer.save(
+                    created_by_id=user_id
+                )
+        else:
+            """画像登録と対戦記録登録"""
+            with transaction.atomic():
+                record = record_serializer.save(
+                    created_by_id=user_id
+                )
+                picture_serializer.check_create(
+                    data={"record_id":record.id,"user_id":user_id}
+                )
+                picture_serializer.save(
+                    record=record
+                )
