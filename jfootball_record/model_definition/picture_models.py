@@ -1,8 +1,6 @@
 from django.db import models
 
 from jfootball_record.model_definition.match_records_models import MatchRecords
-from jfootball_record.model_definition.teams_models import Teams
-from jfootball_record.model_definition.users_models import Users
 
 class Picture(models.Model):
     caption = models.CharField(max_length=255)
