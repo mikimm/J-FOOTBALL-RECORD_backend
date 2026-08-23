@@ -6,7 +6,7 @@ from jfootball_record.model_definition.picture_models import Picture
 class UploadedPictureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Picture
-        fields = ['id', 'caption', 'record_id','picture', 'uploaded_at']
+        fields = ['id', 'record_id','picture', 'uploaded_at']
         read_only_fields = ['record_id','uploaded_at']
     def check_file(self, files):
         if len(files.getlist('picture'))>1:

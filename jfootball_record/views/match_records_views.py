@@ -42,11 +42,11 @@ class MatchRecordsViewSet(BaseViewSet):
     
     def get_picture(self, record_id,return_data,image_flag):
         if not image_flag:
-            return_data.update({"file":{"caption":"No Image","image":"/media/uploads/NO_IMAGE.jpg"}})
+            return_data.update({"file":{"image":"/media/uploads/NO_IMAGE.jpg"}})
             return Response(return_data)
         else: 
             picture=Picture.objects.get(record_id=record_id)
-            return_data.update({"file":{"caption":picture.caption,"image":picture.picture.url}})
+            return_data.update({"file":{"image":picture.picture.url}})
             return Response(return_data)
     
     def retrieve(self, request, *args, **kwargs):

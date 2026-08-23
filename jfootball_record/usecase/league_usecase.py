@@ -41,7 +41,7 @@ class Standing:
     points: int = 0
     goalsDiff: int = 0
     group: str = ""
-    form: str = ""
+    form: Optional[str] = None
     description: Optional[str] = None
 
     all: Stats = field(default_factory=Stats)
