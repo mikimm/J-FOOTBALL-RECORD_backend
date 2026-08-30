@@ -1,3 +1,5 @@
+from jfootball_record.exception.exception_handler import hundle_exception
+from jfootball_record.usecase.match_usecase import match_usecase_handle
 from rest_framework import filters, generics
 from rest_framework.response import Response
 from jfootball_record.model_definition.match_records_models import MatchRecords
@@ -10,6 +12,8 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from jfootball_record.model_definition.picture_models import Picture
 from distutils.util import strtobool
+from rest_framework.views import APIView
+from django.http import JsonResponse
 class MyPagination(PageNumberPagination):
     REST_FRAMEWORK = {
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -33,10 +37,10 @@ class MatchRecordsFilter(FilterSet):
         model = MatchRecords
         fields = ["title"]
     
-# Create your views here.
+
 class MatchRecordsViewSet(BaseViewSet):
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated, )
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated, )
     serializer_class = MatchRecordsSerializer
     queryset = MatchRecords.objects.all()
     
@@ -64,8 +68,8 @@ class MatchRecordListView(generics.ListAPIView):
     #filtering設定
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
     filterset_class = MatchRecordsFilter
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated, )
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated, )
     ordering_fields = ['id']
     serializer_class = MatchRecordListSerializer
     queryset = MatchRecords.objects.all().prefetch_related('home_team','away_team') 
@@ -75,5 +79,15 @@ class MatchRecordListView(generics.ListAPIView):
             return MatchRecords.objects.filter(created_by=self.request.user.id).prefetch_related('home_team','away_team') 
         else:
             return MatchRecords.objects.all().prefetch_related('home_team','away_team')
+        
+class MatchResultListView(APIView):
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated, )
+    def get(self, request, *args, **kwargs):
+        try:
+            output=match_usecase_handle(team_id=self.kwargs['team_id'])
+        except Exception as e:
+            return hundle_exception(e)
+        return JsonResponse(output,safe=False)
         
  

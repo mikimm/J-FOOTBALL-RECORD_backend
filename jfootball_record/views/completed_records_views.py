@@ -9,15 +9,16 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db import transaction
 
-# Create your views here.
+
 class CompletedRecordsView(generics.CreateAPIView):
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated, )
+    # authentication_classes = (SessionAuthentication,)
+    # permission_classes = (IsAuthenticated, )
     def create(self,request, *args, **kwargs):
         record_serializer = MatchRecordsSerializer(data=request.data)
         picture_serializer = UploadedPictureSerializer(data=request.data)
         record_serializer.is_valid(raise_exception=True)
         user_id = self.request.user.id
+        user_id = 1
         if not "picture" in request.data.keys() or not "caption" in request.data.keys():
             self.perform_create(record_serializer, picture_serializer, user_id,False)
         else:
