@@ -15,6 +15,8 @@ from distutils.util import strtobool
 from rest_framework.views import APIView
 from django.http import JsonResponse
 from rest_framework import status
+from django.conf import settings
+import os
 class MyPagination(PageNumberPagination):
     REST_FRAMEWORK = {
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -62,6 +64,17 @@ class MatchRecordsViewSet(BaseViewSet):
             return self.get_picture(return_data["id"],return_data,True)
         else:
             return self.get_picture(return_data["id"],return_data,False)
+    
+    #削除実行関数 画像ファイルも削除するようにオーバーライド  
+    def perform_destroy(self, instance):
+        serializer = self.get_serializer(instance)
+        return_data=serializer.data
+        if Picture.objects.filter(record_id=return_data["id"]).exists():
+            #画像ファイルも削除する
+            p=Picture.objects.get(record_id=return_data["id"])
+            path=settings.MEDIA_ROOT+"/"+str(p.picture)
+            os.remove(path)
+        instance.delete()
     
 class MatchRecordListView(generics.ListAPIView):
     #pagenation設定
