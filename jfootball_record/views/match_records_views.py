@@ -14,6 +14,7 @@ from jfootball_record.model_definition.picture_models import Picture
 from distutils.util import strtobool
 from rest_framework.views import APIView
 from django.http import JsonResponse
+from rest_framework import status
 class MyPagination(PageNumberPagination):
     REST_FRAMEWORK = {
         'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -61,6 +62,14 @@ class MatchRecordsViewSet(BaseViewSet):
             return self.get_picture(return_data["id"],return_data,True)
         else:
             return self.get_picture(return_data["id"],return_data,False)
+        
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_destroy(self, instance):
+        instance.delete()
     
 class MatchRecordListView(generics.ListAPIView):
     #pagenation設定
