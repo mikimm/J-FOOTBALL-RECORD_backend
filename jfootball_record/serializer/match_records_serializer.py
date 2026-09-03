@@ -21,6 +21,13 @@ class MatchRecordsSerializer(serializers.ModelSerializer):
             if data['home_team_id'] == data['away_team_id']:
                 raise serializers.ValidationError("away_team must be differnt from home_team")
             return data
+    def check_user(self,data,user_id):
+            """
+            Check Record and User
+            """
+            if user_id != data.created_by_id:
+                raise serializers.ValidationError("not permissioned")
+            return 
 
 class MatchRecordListSerializer(serializers.ModelSerializer):
     home_team = TeamsSerializer(read_only=True)
@@ -39,3 +46,4 @@ class MatchRecordListSerializer(serializers.ModelSerializer):
     def get_nice_count(self, obj):
         nice_count = Nice.objects.filter(record_id=obj.id).count()
         return nice_count
+

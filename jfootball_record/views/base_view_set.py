@@ -19,11 +19,12 @@ class BaseViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return hundle_exception(e)
         created_by_id=instance.__getattribute__("created_by_id")
+        request.user.id=1
         if created_by_id==request.user.id:
             self.perform_destroy(instance)
         else:
             return Response("権限がありません",status=status.HTTP_403_FORBIDDEN)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response("削除成功",status=status.HTTP_200_OK)
     
     
     def update(self, request, *args, **kwargs):
