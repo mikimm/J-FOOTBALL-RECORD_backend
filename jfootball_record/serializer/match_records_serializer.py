@@ -3,6 +3,7 @@ from rest_framework import serializers
 from django.db import models
 from jfootball_record.model_definition.match_records_models import MatchRecords
 from jfootball_record.model_definition.nice_models import Nice
+from jfootball_record.model_definition.teams_models import Teams
 from jfootball_record.model_definition.users_models import Users
 from jfootball_record.serializer.teams_serializer import TeamsSerializer
 from django.contrib.auth import get_user_model
@@ -11,9 +12,11 @@ class MatchRecordsSerializer(serializers.ModelSerializer):
     home_team_id =serializers.IntegerField(min_value=1, max_value=60)
     away_team_id =serializers.IntegerField(min_value=1, max_value=60)
     created_by_id = serializers.IntegerField(read_only=True)
+    home_team= TeamsSerializer(read_only=True)
+    away_team= TeamsSerializer(read_only=True)
     class Meta:
         model=MatchRecords
-        fields = ['id','title', 'record','home_team_id','home_score','away_team_id','away_score','round','match_day','created_by_id']
+        fields = ['id','title', 'record','home_team_id','home_score','away_team_id','away_score','round','match_day','created_by_id','home_team','away_team']
     def validate(self, data):
             """
             Check home_team and away_team.

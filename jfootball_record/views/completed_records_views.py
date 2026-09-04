@@ -19,7 +19,7 @@ class CompletedRecordsView(generics.CreateAPIView):
         record_serializer.is_valid(raise_exception=True)
         user_id = self.request.user.id
         user_id = 1
-        if not "picture" in request.data.keys() or not "caption" in request.data.keys():
+        if not "picture" in request.data.keys():
             self.perform_create(record_serializer, picture_serializer, user_id,False)
         else:
             picture_serializer.is_valid(raise_exception=True)
