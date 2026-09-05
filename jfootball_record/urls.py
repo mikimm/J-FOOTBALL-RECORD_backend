@@ -17,7 +17,7 @@ record_view_operator =MatchRecordsViewSet.as_view({'get': 'retrieve',  'delete':
 urlpatterns = [
     #投稿機能
     path('completed_records/', record_view_register),
-    path('completed_records/<int:record_id>/', record_view_revise),
+    path('completed_records/<int:record_id>', record_view_revise),
     path('records/<int:pk>/', record_view_operator),
     path('picture/<int:record_id>', PictureView.as_view()),
     #コメント機能

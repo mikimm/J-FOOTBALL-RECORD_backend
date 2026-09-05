@@ -79,9 +79,10 @@ class CompletedRecordsView(viewsets.ModelViewSet):
         if not picture_flag:
                 record_serializer.update(record_instance,record_serializer.validated_data)
                 #既存画像をfilesystemから削除
-                if picture_instance is not None and file_path is not None:
-                    Picture.objects.filter(record_id=self.kwargs['record_id']).delete()
-                    picture_serializer.delete_filesystem(file_path)
+                if self.request.data.get("picture_action")  == "delete":
+                    if picture_instance is not None and file_path is not None:
+                        Picture.objects.filter(record_id=self.kwargs['record_id']).delete()
+                        picture_serializer.delete_filesystem(file_path)
         else:
             """画像登録と対戦記録更新"""
             with transaction.atomic():
