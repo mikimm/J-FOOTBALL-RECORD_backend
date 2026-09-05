@@ -19,7 +19,7 @@ class CommentsView(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     def perform_create(self, serializer,user_id):
         record_id = self.kwargs['record_id']
-        serializer.save(record_id=record_id,comment_by_id=user_id)
+        serializer.save(record_id=record_id,comment_by_id=1)
     # コメント一覧をrecord_idで絞り込み
     def get(self, request, *args, **kwargs):
         record_id = self.kwargs['record_id']

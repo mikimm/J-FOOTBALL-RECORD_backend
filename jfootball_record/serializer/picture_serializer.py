@@ -1,5 +1,6 @@
 from rest_framework import serializers
 import os
+from backend import settings
 from jfootball_record.model_definition.match_records_models import MatchRecords
 from jfootball_record.model_definition.picture_models import Picture
 
@@ -21,6 +22,10 @@ class UploadedPictureSerializer(serializers.ModelSerializer):
         indivisual_dir="uploads/"+str(user_id)
         os.makedirs(indivisual_dir,exist_ok=True)
         Picture.picture.field.upload_to=indivisual_dir
+        
+    def delete_filesystem(self,file_path):
+        path=settings.MEDIA_ROOT+"/"+str(file_path)
+        os.remove(path)
         
         
     def check_create(self,data):

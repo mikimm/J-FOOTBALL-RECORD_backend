@@ -11,12 +11,13 @@ from jfootball_record.views.nice_views import NiceView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-record_view_register =MatchRecordsViewSet.as_view({'post': 'create'})
-record_view_operator =MatchRecordsViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})
+record_view_register =CompletedRecordsView.as_view({'post': 'create'})
+record_view_revise =CompletedRecordsView.as_view({'put': 'update'})
+record_view_operator =MatchRecordsViewSet.as_view({'get': 'retrieve',  'delete': 'destroy'})
 urlpatterns = [
     #投稿機能
-    path('completed_records/', CompletedRecordsView.as_view()),
-    path('records/', record_view_register),
+    path('completed_records/', record_view_register),
+    path('completed_records/<int:record_id>/', record_view_revise),
     path('records/<int:pk>/', record_view_operator),
     path('picture/<int:record_id>', PictureView.as_view()),
     #コメント機能
