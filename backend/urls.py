@@ -21,6 +21,7 @@ from django.shortcuts import render
 from django.contrib.staticfiles.views import serve
 from django.conf import settings
 from backend.settings import MEDIA_ROOT, MEDIA_URL
+from jfootball_record.views.comments_views import ChatConsumer
 from jfootball_record.views.sign_up_view import SignupView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
@@ -43,3 +44,7 @@ urlpatterns = [
     re_path(r'^my_app/(?!.*(images/|static/)).*$', index_view, name='index'), 
     re_path(r'^my_app/(?P<path>.*?\.[^/]+)$',serve),
 ]+ static(MEDIA_URL, document_root=MEDIA_ROOT)
+#コメント機能非同期通信
+websocket_urlpatterns = [
+    re_path(r'ws/comment/', ChatConsumer.as_asgi()),
+]

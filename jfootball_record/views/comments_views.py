@@ -1,10 +1,14 @@
+import json
+
 from rest_framework import generics
-from jfootball_record.model_definition.comments_models import Comments
+from jfootball_record.model_definition.comments_models import Comments,Users
 from jfootball_record.serializer.comments_serializer import CommentsSerializer
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from channels.db import database_sync_to_async
+from channels.generic.websocket import AsyncWebsocketConsumer
 
 class CommentsView(generics.ListCreateAPIView):
     serializer_class = CommentsSerializer
@@ -30,3 +34,58 @@ class CommentsView(generics.ListCreateAPIView):
         queryset = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(queryset, many=True)
         return Response({"count":self.queryset.count(),"comments":serializer.data})
+
+class ChatConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.room_group_name = 'chat'
+        # Join room group
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+        # Accepts the WebSocket connection.
+        print("connection")
+        await self.accept()
+
+    # leave a Group
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+
+    # Receive comment from WebSocket
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        comment = text_data_json['message']
+
+        # save comment db
+        res = await self.save_comment_to_db(comment)
+        # send comment to group(chat グループに属する全てのクライアントに対してブロードキャスト)
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_comment',
+                'comment': res.comment,
+                'comment_by':res.comment_by.username
+            }
+        )
+    # Receive comment from group
+    async def chat_comment(self, event):
+        comment = event['comment']
+        comment_by = event['comment_by']
+        # WebSocketを介してメッセージを送信
+        await self.send(text_data=json.dumps({
+            'comment': comment,
+            'comment_by': comment_by
+        }))
+
+    @database_sync_to_async
+    def save_comment_to_db(self, comment_text):
+        record_id =154
+        comment=Comments.objects.create(
+                record_id= record_id,
+                comment=comment_text,
+                comment_by_id=1)
+        comment=Comments.objects.prefetch_related("comment_by").get(id=comment.id)
+        return comment

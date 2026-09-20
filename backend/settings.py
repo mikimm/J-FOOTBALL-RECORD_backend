@@ -36,12 +36,18 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',  # ASGIサーバー
     'django.contrib.staticfiles',
     'jfootball_record',
     'rest_framework',
     'django_filters',
-    'django_bootstrap5'
+    'channels',
+    'django_bootstrap5',
+    'corsheaders',
 ]
+
+#ASGI_APPLICATIONにasgi.pyの設定を追加
+ASGI_APPLICATION = 'backend.asgi.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -90,7 +96,15 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [{"address": "redis://127.0.0.1:6379/0", "socket_timeout": None}],
+            
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
