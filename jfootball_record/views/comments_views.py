@@ -82,10 +82,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def save_comment_to_db(self, comment_text):
-        record_id =154
+        record_id=self.scope["url_route"]['kwargs']['record_id']
         comment=Comments.objects.create(
                 record_id= record_id,
                 comment=comment_text,
                 comment_by_id=1)
-        comment=Comments.objects.prefetch_related("comment_by").get(id=comment.id)
+        comment=Comments.objects.select_related("comment_by").get(id=comment.id)
         return comment

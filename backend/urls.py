@@ -46,5 +46,5 @@ urlpatterns = [
 ]+ static(MEDIA_URL, document_root=MEDIA_ROOT)
 #コメント機能非同期通信
 websocket_urlpatterns = [
-    re_path(r'ws/comment/', ChatConsumer.as_asgi()),
+    path('ws/comment/<int:record_id>', ChatConsumer.as_asgi()),
 ]

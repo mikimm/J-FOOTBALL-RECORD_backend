@@ -6,7 +6,7 @@ from jfootball_record.views.players_view import TeamPlayersView
 from jfootball_record.views.league_views import LeagueRankingView
 from jfootball_record.views.team_views import TeamDetailView, TeamListView
 from jfootball_record.views.match_records_views import MatchRecordListView, MatchRecordsViewSet, MatchResultListView
-from jfootball_record.views.comments_views import ChatConsumer, CommentsView
+from jfootball_record.views.comments_views import CommentsView
 from jfootball_record.views.nice_views import NiceView
 from rest_framework.routers import DefaultRouter
 
