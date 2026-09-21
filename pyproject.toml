@@ -19,7 +19,6 @@ dependencies = [
     "django-bootstrap5 (>=26.2,<27.0)",
     "setuptools (>=83.0.0,<84.0.0)",
     "channels (>=4.3.2,<5.0.0)",
-    "django-cors-headers (>=4.9.0,<5.0.0)",
     "daphne (>=4.2.3,<5.0.0)",
     "channels-redis (>=4.3.0,<5.0.0)"
 ]

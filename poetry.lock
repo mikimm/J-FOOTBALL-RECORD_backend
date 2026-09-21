@@ -677,22 +677,6 @@ django = ">=4.2"
 jinja = ["jinja2 (>=3.0,<4)"]
 
 [[package]]
-name = "django-cors-headers"
-version = "4.9.0"
-description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
-optional = false
-python-versions = ">=3.9"
-groups = ["main"]
-files = [
-    {file = "django_cors_headers-4.9.0-py3-none-any.whl", hash = "sha256:15c7f20727f90044dcee2216a9fd7303741a864865f0c3657e28b7056f61b449"},
-    {file = "django_cors_headers-4.9.0.tar.gz", hash = "sha256:fe5d7cb59fdc2c8c646ce84b727ac2bca8912a247e6e68e1fb507372178e59e8"},
-]
-
-[package.dependencies]
-asgiref = ">=3.6"
-django = ">=4.2"
-
-[[package]]
 name = "django-filter"
 version = "25.2"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
@@ -1368,4 +1352,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14"
-content-hash = "d17b957db7a37ffa3fa837a3e2fa566d0ac0841bd86dc94f459c92b55552b20a"
+content-hash = "8e09a55ab41c60c37d769698611776557a798c94df05ba502c4c349f3fa0e4cf"

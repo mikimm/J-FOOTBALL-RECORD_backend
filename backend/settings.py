@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django_filters',
     'channels',
     'django_bootstrap5',
-    'corsheaders',
 ]
 
 #ASGI_APPLICATIONにasgi.pyの設定を追加
