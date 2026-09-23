@@ -12,13 +12,22 @@ class Adaptor():
             raise Exception(response.json())  
         return_data = {"status": response.status_code, "data": response.json()}     
         return return_data
+    
+    def get_season(division_id) ->int:
+        #今シーズン(2026~2027)の年度がJ1とJ2~J3で差分あり。
+        #J2,J3のリーグ順位は2026シーズンから取得。
+        #J1リーグは2027シーズンから取得。
+        if division_id==98:
+            return SEASON
+        else:
+            return 2026
     #順位取得
     @classmethod
     def get_ranking(cs,**kwargs) -> dict:
         division_id=kwargs["division_id"]
         parameter = {
         "league": division_id,
-        "season": SEASON 
+        "season": cs.get_season(division_id) 
         }
         output=cs._call_api("https://v3.football.api-sports.io/standings",parameter)
         return output["data"]["response"][0]["league"]["standings"][0]
@@ -55,9 +64,11 @@ class Adaptor():
     @classmethod
     def get_match(cs,**kwargs) -> list:
         team_id=kwargs["team_id"]
+        division_id=kwargs["division_id"]
         parameter = {
         "timezone": TIME_ZONE,
-        "season": SEASON,
+        "season": cs.get_season(division_id) ,
+        "league":division_id,
         "team":team_id
         }
         output=cs._call_api("https://v3.football.api-sports.io/fixtures/?",parameter)

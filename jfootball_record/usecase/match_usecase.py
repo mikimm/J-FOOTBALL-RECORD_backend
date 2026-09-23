@@ -65,7 +65,7 @@ def match_usecase_handle(**kwargs) -> list:
     except Teams.DoesNotExist:
             raise NotFoundError("team not found")
     try:
-        output= Adaptor.get_match(team_id= t.api_foot_ball_team_id)
+        output= Adaptor.get_match(team_id= t.api_foot_ball_team_id,division_id= t.league.api_foot_ball_league_id)
     except Exception as e:
         raise ExternalAPIError(e)
     for o in output:
