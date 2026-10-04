@@ -10,8 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 
 class TeamListView(generics.ListAPIView):
     serializer_class = TeamsSerializer
-    authentication_classes = (SessionAuthentication,)
-    permission_classes = (IsAuthenticated, )
+
     def get_queryset(self):
         # URLからリーグIDを取得してフィルタ
         league_id = self.kwargs['league_id']
@@ -19,8 +18,7 @@ class TeamListView(generics.ListAPIView):
 
 
 class TeamDetailView(APIView):
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated, )
+
     def get(self, request, *args, **kwargs):
         try:
             output=team_usecase_handle(team_id=self.kwargs['team_id'])

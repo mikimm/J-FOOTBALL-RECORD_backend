@@ -13,8 +13,7 @@ from django.db import transaction
 from rest_framework import status, viewsets
 
 class CompletedRecordsView(viewsets.ModelViewSet):
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated, )
+
     def create(self,request, *args, **kwargs):
         record_serializer = MatchRecordsSerializer(data=request.data)
         picture_serializer = UploadedPictureSerializer(data=request.data)

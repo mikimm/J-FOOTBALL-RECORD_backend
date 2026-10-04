@@ -13,8 +13,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 class CommentsView(generics.ListCreateAPIView):
     serializer_class = CommentsSerializer
     queryset = None
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated, )
+
     # コメント一覧をrecord_idで絞り込み
     def get(self, request, *args, **kwargs):
         record_id = self.kwargs['record_id']

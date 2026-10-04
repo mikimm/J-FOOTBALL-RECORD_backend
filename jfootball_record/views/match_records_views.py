@@ -42,8 +42,7 @@ class MatchRecordsFilter(FilterSet):
     
 
 class MatchRecordsViewSet(BaseViewSet):
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated, )
+
     serializer_class = MatchRecordsSerializer
     queryset = MatchRecords.objects.all()
     
@@ -82,8 +81,7 @@ class MatchRecordListView(generics.ListAPIView):
     #filtering設定
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
     filterset_class = MatchRecordsFilter
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated, )
+
     ordering_fields = ['id']
     serializer_class = MatchRecordListSerializer
     queryset = MatchRecords.objects.all().prefetch_related('home_team','away_team') 
@@ -96,8 +94,7 @@ class MatchRecordListView(generics.ListAPIView):
             return MatchRecords.objects.all().prefetch_related('home_team','away_team')
         
 class MatchResultListView(APIView):
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated, )
+
     def get(self, request, *args, **kwargs):
         try:
             output=match_usecase_handle(team_id=self.kwargs['team_id'])
