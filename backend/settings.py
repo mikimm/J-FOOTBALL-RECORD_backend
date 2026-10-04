@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 ASGI_APPLICATION = 'backend.asgi.application'
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -159,3 +161,16 @@ AUTH_USER_MODEL = "jfootball_record.Users"
 #ログイン後に遷移するURL
 LOGIN_REDIRECT_URL = '/my_app/' 
 LOGIN_URL = "/login/"
+
+#auth認証設定
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:3000"
+]
+CORS_ALLOW_CREDENTIALS = True

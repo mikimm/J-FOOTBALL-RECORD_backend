@@ -27,15 +27,17 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from rest_framework import status
+from jfootball_record.model_definition.users_models import Users;
 @login_required
 def index_view(request,*args, **kwargs):
     return render(request, 'index.html')
 
 def auth_check(request,*args, **kwargs):
     if request.user.is_authenticated:
-        return JsonResponse({"code":"auth_check_success"},status=status.HTTP_200_OK)
+        u=Users.objects.get(id=request.user.id)
+        return JsonResponse({"code":"auth_check_success","username":u.username},status=status.HTTP_200_OK)
     else:
-         return JsonResponse({"code":"auth_check_failed"},status=status.HTTP_403_FORBIDDEN)
+        return JsonResponse({"code":"auth_check_failed"},status=status.HTTP_403_FORBIDDEN)
 urlpatterns = [
     path('sign_up/', SignupView.as_view()),
     path('auth/check/',auth_check),

@@ -10,8 +10,8 @@ from rest_framework.permissions import IsAuthenticated
 
 class TeamListView(generics.ListAPIView):
     serializer_class = TeamsSerializer
-    # authentication_classes = (SessionAuthentication,)
-    # permission_classes = (IsAuthenticated, )
+    authentication_classes = (SessionAuthentication,)
+    permission_classes = (IsAuthenticated, )
     def get_queryset(self):
         # URLからリーグIDを取得してフィルタ
         league_id = self.kwargs['league_id']
