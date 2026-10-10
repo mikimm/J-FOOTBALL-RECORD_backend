@@ -28,7 +28,7 @@ def players_usecase_handle(**kwargs) -> dict:
         raise NotFoundError("player not found")
     else:
         try:
-            output= Adaptor.get_players(player_id= player_id)
+            output= Adaptor.get_players(player_id= player_id,division_id=t.league.id)
         except Exception as e:
             raise ExternalAPIError(e)
     return output

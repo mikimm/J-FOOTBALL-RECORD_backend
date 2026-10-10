@@ -2,6 +2,7 @@ from typing import Any
 import requests
 
 from backend.settings import SEASON, TIME_ZONE, X_API_SPORTS_KEY
+from jfootball_record.exception.exceptions import ExternalAPIError
 
 class Adaptor():
     #外部API呼び出し関数
@@ -15,7 +16,7 @@ class Adaptor():
     
     def get_season(division_id) ->int:
         #今シーズン(2026~2027)の年度がJ1とJ2~J3で差分あり。
-        #J2,J3のリーグ順位は2026シーズンから取得。
+        #J2,J3のデータは2026シーズンから取得。
         #J1リーグは2027シーズンから取得。
         if division_id==98:
             return SEASON
@@ -52,13 +53,16 @@ class Adaptor():
         return output["data"]["response"][0]
     #選手詳細取得
     @classmethod
-    def get_players(cs,**kwargs) -> dict:
+    def get_players(cs,**kwargs) -> dict | object:
         player_id=kwargs["player_id"]
+        division_id=kwargs["division_id"]
         parameter = {
         "id": {player_id},
-        "season": SEASON
+        "season": cs.get_season(division_id)
         }
         output=cs._call_api("https://v3.football.api-sports.io/players/?",parameter)
+        if len(output["data"]["response"])==0:
+             raise ExternalAPIError("選手のスタッツ情報がまだ更新されておりません")
         return output["data"]["response"][0]
     #試合結果取得
     @classmethod
