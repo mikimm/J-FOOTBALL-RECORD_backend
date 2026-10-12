@@ -139,11 +139,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'statics/'
+STATIC_URL = '/my_app/static/'
 
 STATICFILES_DIRS = (
-    BASE_DIR.joinpath('frontend'),
-    os.path.join(BASE_DIR, "statics"), 
+    BASE_DIR.joinpath('frontend/static/'), 
 )
 load_dotenv('.env')
 X_API_SPORTS_KEY=os.environ.get('x-apisports-key')
@@ -170,5 +169,3 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ]
 }
-# collectstaticの保管場所
-STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
