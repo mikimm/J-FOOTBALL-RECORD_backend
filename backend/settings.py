@@ -142,7 +142,7 @@ USE_TZ = True
 STATIC_URL = '/my_app/static/'
 
 STATICFILES_DIRS = (
-    BASE_DIR.joinpath('frontend/static/'), 
+    BASE_DIR / 'frontend' / 'static',
 )
 load_dotenv('.env')
 X_API_SPORTS_KEY=os.environ.get('x-apisports-key')
