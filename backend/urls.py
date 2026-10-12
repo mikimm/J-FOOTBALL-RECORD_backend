@@ -43,7 +43,7 @@ urlpatterns = [
     path('auth/check/',auth_check),
     path('login/', LoginView.as_view(), name='login'),
     path('api/v1/', include('jfootball_record.urls')),
-    re_path(r'^my_app/(?!.*(images/|static/)).*$', index_view, name='index'), 
+    re_path(r'^my_app/(?!.*(images/|statics/)).*$', index_view, name='index'), 
     re_path(r'^my_app/(?P<path>.*?\.[^/]+)$',serve),
 ]+ static(MEDIA_URL, document_root=MEDIA_ROOT)
 #コメント機能非同期通信
