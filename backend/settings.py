@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!0qich+1r478j%x8t&p6wt&+5q3&p=8ot!)1s#e$e=l6wjdlvi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1'] 
 
 
 # Application definition
@@ -170,3 +170,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ]
 }
+# collectstaticの保管場所
+STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
