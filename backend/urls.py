@@ -19,15 +19,14 @@ from django.conf.urls.static import static
 from django.urls import include, path,re_path
 from django.shortcuts import render
 from django.contrib.staticfiles.views import serve
-from django.conf import settings
-from backend.settings import MEDIA_ROOT, MEDIA_URL
+from backend.settings import STATICFILES_DIRS,MEDIA_URL,MEDIA_ROOT
 from jfootball_record.views.comments_views import ChatConsumer
 from jfootball_record.views.sign_up_view import SignupView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from rest_framework import status
-from jfootball_record.model_definition.users_models import Users;
+from jfootball_record.model_definition.users_models import Users
 @login_required
 def index_view(request,*args, **kwargs):
     return render(request, 'index.html')
@@ -44,7 +43,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('api/v1/', include('jfootball_record.urls')),
     re_path(r'^my_app/(?!.*(images/|static/)).*$', index_view, name='index'), 
-    re_path(r'^my_app/(?P<path>.*?\.[^/]+)$',serve),
+    re_path(r'^my_app/(?P<path>.*?\.[^/]+)$',serve,{'document_root': STATICFILES_DIRS}),
 ]+ static(MEDIA_URL, document_root=MEDIA_ROOT)
 #コメント機能非同期通信
 websocket_urlpatterns = [

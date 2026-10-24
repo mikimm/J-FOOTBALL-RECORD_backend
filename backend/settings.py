@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!0qich+1r478j%x8t&p6wt&+5q3&p=8ot!)1s#e$e=l6wjdlvi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1'] 
 
@@ -91,8 +91,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': "jfootball",
+         'USER': "jf_user",
+         'PASSWORD': "jfootball",
+         'HOST': "",
+         'PORT': "",
     }
 }
 CHANNEL_LAYERS = {
