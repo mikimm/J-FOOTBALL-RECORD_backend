@@ -796,6 +796,17 @@ files = [
 python-dotenv = "*"
 
 [[package]]
+name = "mod-wsgi"
+version = "6.1.1"
+description = "Installer for Apache/mod_wsgi."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "mod_wsgi-6.1.1.tar.gz", hash = "sha256:a42d11ba45d2050ab456a474d034e938605ca76386233ef404daa8b0388ca60e"},
+]
+
+[[package]]
 name = "msgpack"
 version = "1.2.2"
 description = "MessagePack serializer"
@@ -1429,4 +1440,4 @@ testing = ["coverage[toml]", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14"
-content-hash = "99fcef6833dc114bdaa6fc20aec8333a3cd08171e480c9ab3a111064970f6820"
+content-hash = "c8ae2adffe84c2dd7987c2bdd1a0f0f5b24f661b8fee276a71d6348862eded62"
