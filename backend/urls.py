@@ -27,6 +27,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from rest_framework import status
 from jfootball_record.model_definition.users_models import Users
+from django.shortcuts import redirect
 @login_required
 def index_view(request,*args, **kwargs):
     return render(request, 'index.html')
@@ -37,6 +38,9 @@ def auth_check(request,*args, **kwargs):
         return JsonResponse({"code":"auth_check_success","username":u.username},status=status.HTTP_200_OK)
     else:
         return JsonResponse({"code":"auth_check_failed"},status=status.HTTP_403_FORBIDDEN)
+
+def root(request,*args, **kwargs):
+    return redirect('my_app/')
 urlpatterns = [
     path('sign_up/', SignupView.as_view()),
     path('auth/check/',auth_check),
@@ -44,6 +48,7 @@ urlpatterns = [
     path('api/v1/', include('jfootball_record.urls')),
     re_path(r'^my_app/(?!.*(images/|static/)).*$', index_view, name='index'), 
     re_path(r'^my_app/(?P<path>.*?\.[^/]+)$',serve,{'document_root': STATICFILES_DIRS}),
+    path('',root)
 ]+ static(MEDIA_URL, document_root=MEDIA_ROOT)
 #コメント機能非同期通信
 websocket_urlpatterns = [
