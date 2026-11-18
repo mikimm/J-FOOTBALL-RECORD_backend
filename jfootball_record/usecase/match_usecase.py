@@ -17,31 +17,33 @@ class Goals:
 # --- Fixture ---
 @dataclass
 class Fixture:
-    date: str = ""
+    date:  None |str = ""
     def __post_init__(self):
+        #Tで始まる文字列を削除して実際の日付だけを抽出している。
         self.date=re.sub('T.*','',self.date)
     
 # --- League ---
 @dataclass
 class League:
-    name: str = ""
-    round: str = ""
+    name:  None |str = ""
+    round:  None |str = ""
+    #数字以外のすべての文字列を削除して数字だけを抽出している。
     def __post_init__(self):
         self.round=re.sub(r"\D", "",self.round)
 
 # --- home ---
 @dataclass
 class Home:
-    id: int = 0
-    name: str = ""
-    logo: str =""
+    id:  None |int = 0
+    name:  None |str = ""
+    logo:  None |str =""
     
 # --- away ---
 @dataclass
 class Away:
-    id: int = 0
-    name: str = ""
-    logo: str =""
+    id:  None |int = 0
+    name:  None |str = ""
+    logo:  None |str =""
 
 # --- Match --- 
 @dataclass

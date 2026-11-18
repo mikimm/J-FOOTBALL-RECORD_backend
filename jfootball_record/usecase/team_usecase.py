@@ -10,29 +10,26 @@ from jfootball_record.model_definition.teams_models import Teams
 # --- 最下層 ---
 @dataclass
 class Goals:
-    score: int = 0   # "for" は予約語なので score にする
-    against: int = 0
+    score: None | int = 0   # "for" は予約語なので score にする
+    against: None | int = 0
 
 
 # --- team ---
 @dataclass
 class Team:
-    name: str = ""
-    founded: int | None | str = None
-    logo: str = ""
-    def __post_init__(self):
-        if self.founded is None:
-            self.founded = "---"
+    name: None | str = "---"
+    founded: int | None | str = "---"
+    logo: None | str = "---"
     
 @dataclass
 # --- team ---
 class Venue:
-    name: str = ""
-    address: str = ""
-    city: str = ""
-    capacity: int = 0
-    surface: str = ""
-    image: str = ""
+    name: None | str = "---"
+    address: None | str = "---"
+    city: None | str = "---"
+    capacity: None | int = 0
+    surface: None | str = "---"
+    image: None | str = "---"
 
 
 # --- root ---

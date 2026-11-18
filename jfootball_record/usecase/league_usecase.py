@@ -12,35 +12,35 @@ from jfootball_record.model_definition.teams_models import Teams
 # --- 最下層 ---
 @dataclass
 class Goals:
-    score: int = 0   # "for" は予約語なので score にする
-    against: int = 0
+    score:  None |int = 0   # "for" は予約語なので score にする
+    against:  None |int = 0
 
 # --- stats要素 ---
 @dataclass
 class Stats:
-    played: int = 0
-    win: int = 0
-    draw: int = 0
-    lose: int = 0
+    played:  None |int = 0
+    win:  None |int = 0
+    draw:  None |int = 0
+    lose:  None |int = 0
     goals: Goals = field(default_factory=Goals)
 
 
 # --- team要素 ---
 @dataclass
 class Team:
-    id: int = 0
-    name: str = ""
-    image: str = ""
+    id:  None |int = 0
+    name:  None |str = ""
+    image:  None |str = ""
 
 
 # --- standings要素 ---
 @dataclass
 class Standing:
-    rank: int = 0
-    team: Team = field(default_factory=Team)
-    points: int = 0
-    goalsDiff: int = 0
-    group: str = ""
+    rank:  None |int = 0
+    team:  Team = field(default_factory=Team)
+    points:  None |int = 0
+    goalsDiff:  None |int = 0
+    group:  None |str = ""
     form: Optional[str] = None
     description: Optional[str] = None
 
